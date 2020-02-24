@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>原主<a href=" https://blog.csdn.net/qq_27384769/article/details/89388100">
+            https://blog.csdn.net/qq_27384769/article/details/89388100</a></div>
+    <!--  完整的导航解析流程 -->
+    <p>导航被触发---在失活的组件里调用离开守卫---调用全局的beforeEach守卫</p>
+    <p>在重用的组件里调用beforeRouteUpdate守卫---在路由配置里调用beforeEnter</p>
+    <p>解析异步路由组件---再被激活的组件中调用beforeRouteEnter</p>
+    <p>调用全局的beforeResolve守卫---导航被确认</p>
+    <p>调用全局的afterEach钩子---触发DOM更新</p>
+    <p>在创建好的实例调用beforeRouteEnter守卫中传给next的回调函数</p>
+    <script type="text/javascript">
+        //   使用mapState需要首先从vues中引入
+        import { mapState } from 'vuex';
+
+        computed: mapState({
+            count: state => state.count,
+            countAliasL: 'count', // 传字符串参数等同于‘state =>state.count
+            // 为了使用this获取局部状态  必须使用常规函数
+            countPlusLocalState(state) {
+                return state.count + this.localCount
+            }
+        })
+    </script>
+
+    <script>
+        // router-view router-link组件
+        import View from './components/view'
+        import Link from './components/link'
+
+        //export一个Vue引用
+        export let _Vue
+
+        // 安装函数
+        export function install(Vue) {
+            if (install.installed) return
+            install.installed = true
+
+            // 赋值私有vue引用
+            _Vue = Vue
+            // 注入$router $route
+            Object.defineProperty(Vue.prototype, '$router', {
+                get() { return this.$root._route }
+            })
+            Vue.minxin({
+                beforeCreate() {
+                    // 判断是否有router
+                    if (this.$options.router) {
+                        // 赋值_router
+                        this._router = this.$options.router
+                        // 初始化init
+                        this._router.init(this)
+                        // 定义响应式的_route对象
+                        Vue.util.defineReactive(this, "_route", this._router.history.current)
+                    }
+                }
+            })
+        }
+
+        // 注册组件
+        Vue.component('router-view', View)
+        Vue.component('router-link', Link)
+    </script>
+
+    <script>
+
+    </script>
+</body>
+
+</html>
