@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{foo}}</p>
+        <button v-on:click="foo ='baz'">Change it!</button>
+    </div>
+    <div id="example">
+        <p>{{data.a}}</p>
+        <button v-on:click="a='33'">Change it !</button>
+    </div>
+    <!-- v-once指令 一次性插值  之后在不更改 -->
+    <div id="app1">
+        <span>Message: {{msg}}</span>
+        <span v-once>Message: {{msg}}</span>
+    </div>
+    <script>
+
+        var data2 = { 'msg': 22 }
+        var vm2 = new Vue({
+            el: "#app1",
+            data: data2
+        })
+        vm2.$data.msg = 'dd'
+    </script>
+    <!-- v-html可以解析标签 -->
+    <div id="app2">
+        <p>Using mustaches:{{rawHtml}}</p>
+        <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+    </div>
+    <script>
+        var vm3 = new Vue({
+            el: "#app2",
+            data: {
+                rawHtml: '<span>this is model</span>'
+            }
+        })
+    </script>
+    <!-- v-bind指令 响应更新html属性-->
+    <div id="app3">
+        <div v-bind:id="dynamicId">this is show</div>
+        <button :disable="isButtonDisabled">Button</button>
+    </div>
+    <script>
+        var vm4 = new Vue({
+            el: "#app3",
+            data: {
+                dynamicId: false,
+                isButtonDisabled: false,
+            }
+        })
+    </script>
+    <script>
+
+        // var vm =new Vue({
+        //     // 如果你知道你会在晚些时候需要一个属性，但是一开始它为空或不存在，那么你仅需要设置一些初始值
+        //     data:{
+        //         newTodoText:'',
+        //         visitCount:0,
+        //         hideCompletedTodos:fasle,
+        //         todos:[],
+        //         error:null
+        //     }
+        // })
+
+        //  Object.freeze()  阻止修改现有属性
+        var obj = { foo: 'bar' }
+        Object.freeze(obj)
+        new Vue({
+            el: "#app",
+            data: obj
+        })
+        // vue实例还暴露了一些实例属性和方法，都有前缀$，为了和用户自定义的区分
+        var data = { a: 1 }
+        var vm = new Vue({
+            el: "#example",
+            data: data
+        })
+
+        vm.$data === data  // =>true
+        console.log(vm.$data === data)
+        vm.$el === document.getElementById("example") // =>true
+        console.log(vm.$el === document.getElementById("example"))
+        // $watch是一个实例方法
+        vm.$watch('a', (newValue, oldValue) => {
+            // 这个回调将在'vm.a'改变之后调用
+            console.log(newValue)
+            console.log(oldValue)
+        })
+
+        // created 挂载阶段还没有开始
+        var vm1 = new Vue({
+            data: {
+                a: 1
+            },
+            created: function () {
+                // this指向vm1实例
+                console.log('a is:' + this.a)
+            }
+        })
+
+    </script>
+
+</body>
+
+</html>

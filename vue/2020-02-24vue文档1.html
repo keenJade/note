@@ -43,6 +43,13 @@
         <p>{{message}}</p>
         <input type="text" v-model='message'>
     </div>
+    <!-- 构建组件模板 -->
+    <div id="app7">
+        <ol>
+            <!-- 创建一个todo-item组件的实例 -->
+            <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id"></todo-item>
+        </ol>
+    </div>
     <script>
         Vue.config.devtools = true;
 
@@ -91,6 +98,26 @@
             }
         })
 
+
+    </script>
+    <script>
+        // 定义名为todo-item的新组件
+        Vue.component('todo-item', {
+            // todo-item组件现在接受一个‘prop'，类似于一个自定义属性，这个props命名为todo
+            // 通过prop接口与父单元进行解耦
+            props: ['todo'],
+            template: '<li>{{todo.text}}</li>'
+        })
+        var vm = new Vue({
+            el: "#app7",
+            data: {
+                groceryList: [
+                    { id: 0, text: "蔬菜" },
+                    { id: 1, text: "水果" },
+                    { id: 3, text: "其他" }
+                ]
+            }
+        })
     </script>
 </body>
 
