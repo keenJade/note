@@ -14,51 +14,20 @@
         <p>{{foo}}</p>
         <button v-on:click="foo ='baz'">Change it!</button>
     </div>
+    <script>
+        //  Object.freeze()  阻止修改现有属性
+        var obj = { foo: 'bar' }
+        Object.freeze(obj)
+        new Vue({
+            el: "#app",
+            data: obj
+        })
+    </script>
+
     <div id="example">
         <p>{{data.a}}</p>
         <button v-on:click="a='33'">Change it !</button>
     </div>
-    <!-- v-once指令 一次性插值  之后在不更改 -->
-    <div id="app1">
-        <span>Message: {{msg}}</span>
-        <span v-once>Message: {{msg}}</span>
-    </div>
-    <script>
-
-        var data2 = { 'msg': 22 }
-        var vm2 = new Vue({
-            el: "#app1",
-            data: data2
-        })
-        vm2.$data.msg = 'dd'
-    </script>
-    <!-- v-html可以解析标签 -->
-    <div id="app2">
-        <p>Using mustaches:{{rawHtml}}</p>
-        <p>Using v-html directive: <span v-html="rawHtml"></span></p>
-    </div>
-    <script>
-        var vm3 = new Vue({
-            el: "#app2",
-            data: {
-                rawHtml: '<span>this is model</span>'
-            }
-        })
-    </script>
-    <!-- v-bind指令 响应更新html属性-->
-    <div id="app3">
-        <div v-bind:id="dynamicId">this is show</div>
-        <button :disable="isButtonDisabled">Button</button>
-    </div>
-    <script>
-        var vm4 = new Vue({
-            el: "#app3",
-            data: {
-                dynamicId: false,
-                isButtonDisabled: false,
-            }
-        })
-    </script>
     <script>
 
         // var vm =new Vue({
@@ -72,13 +41,7 @@
         //     }
         // })
 
-        //  Object.freeze()  阻止修改现有属性
-        var obj = { foo: 'bar' }
-        Object.freeze(obj)
-        new Vue({
-            el: "#app",
-            data: obj
-        })
+
         // vue实例还暴露了一些实例属性和方法，都有前缀$，为了和用户自定义的区分
         var data = { a: 1 }
         var vm = new Vue({
@@ -108,6 +71,229 @@
             }
         })
 
+    </script>
+
+
+    <!-- v-once指令 一次性插值  之后在不更改 -->
+    <div id="app1">
+        <span>Message: {{msg}}</span>
+        <span v-once>Message: {{msg}}</span>
+    </div>
+    <script>
+
+        var data2 = { 'msg': 22 }
+        var vm2 = new Vue({
+            el: "#app1",
+            data: data2
+        })
+        vm2.$data.msg = 'dd'
+    </script>
+    <!-- v-html可以解析标签 -->
+    <div id="app2">
+        <p>Using mustaches:{{rawHtml}}</p>
+        <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+    </div>
+    <script>
+        var vm3 = new Vue({
+            el: "#app2",
+            data: {
+                rawHtml: '<span>this is model</span>'
+            }
+        })
+    </script>
+    <!-- v-bind指令 响应更新html属性 
+        v-if判断显示
+        v-on监听事件
+        动态参数：用方括号括起来的js表达式作为一个指令的参数
+    -->
+    <div id="app3">
+        <div v-bind:id="dynamicId" v-if="seen">this is show</div>
+        <a :href="url">这是一个链接</a>
+        <a v-on:click="doSomething">这是一个点击事件</a>
+        <!-- <a @:click="doSomething">这是一个点击事件</a> -->
+        <a v-bind:[lis]="handleThing">这是一个选择事件</a>
+        <!-- <a :[lis]="handleThing">这是一个选择事件</a> -->
+        <a v-on:[lis1]="handleThing1">这是一个选择事件</a>
+        <button :disable="isButtonDisabled">Button</button>
+    </div>
+    <script>
+        var vm4 = new Vue({
+            el: "#app3",
+            data: {
+                dynamicId: true,
+                isButtonDisabled: true,
+                seen: false,
+                url: "https://www.dcloud.io/ncp.html",
+                lis: 'href',
+                lis1: 'click',
+                handleThing: "https://cn.vuejs.org/v2/guide/syntax.html"
+            },
+            methods: {
+                doSomething: function () {
+                    console.log('this is  a docter')
+                },
+                handleThing1: function () {
+                    console.log('href')
+                }
+            }
+        })
+
+    </script>
+
+    <!-- 计算属性和侦听器 -->
+    <!-- 对于任何复杂的逻辑  应该使用计算属性 -->
+    <div id="example1">
+        <p>{{message.split('').reverse().join('')}}</p>
+        <p>Original message:"{{message}}"</p>
+        <p>Computed reversed message:"{{ reversedMessage}}"</p>
+        <!-- 不同之处方法和计算属性：  计算属性是基于响应式依赖进行缓存的 -->
+        <!-- <p>Computed reversed message:"{{ reversedMessage()}}"</p> -->
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#example1",
+            data: {
+                message: "hello"
+            },
+            // methods: {
+            //     reversedMessage: function () {
+            //         // this指向vm实例
+            //         return this.message.split('').reverse().join('')
+            //     }
+            // },
+            computed: {
+                // 计算属性的getter,声明一个计算属性reversedMessage
+                reversedMessage: function () {
+                    // this指向vm实例
+                    return this.message.split('').reverse().join('')
+                }
+            }
+        })
+    </script>
+
+    <!-- // 侦听属性：观察和响应vue实例上的数据变动 -->
+    <div id="demo">{{ fullName}}</div>
+    <script>
+        var vm = new Vue({
+            el: "#demo",
+            data: {
+                firstName: "Foo",
+                lastName: "Bar",
+                // fullName: "Foo Bar"
+            },
+            // watch: {
+            //     firstName: function (val) {
+            //         console.log(val)
+            //         this.fullName = val + "" + this.lastName
+            //         console.log(this.fullName)
+            //     },
+            //     lastName: function (val) {
+            //         console.log(val)
+            //         this.fullName = this.firstName + "" + val
+            //         console.log(this.fullName)
+            //     }
+            // },
+            computed: {
+                fullName: function () {
+                    return this.firstName + " " + this.lastName
+                }
+            }
+        })
+    </script>
+    <!-- watch侦听器：当需要在数据变化时执行异步或者开销比较大的操作 -->
+    <div id="watch-example">
+        <p>Ask a yes/no question:
+            <input type="text" v-model="question">
+            <p>{{question}}</p>
+        </p>
+        <p>{{answer}}</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <script>
+        var watchExampleVM = new Vue({
+            el: "#watch-example",
+            data: {
+                question: "",
+                answer: "I cannot give you an answer until you ask a quesion!"
+            },
+            watch: {
+                // 使用 watch 选项允许我们执行异步操作 (访问一个 API)，
+                //限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态。
+                //这些都是计算属性无法做到的。
+                // 如果question发生更改这个函数运行
+                question: function (newQuestion, oldQuestion) {
+                    this.answer = "Waiting for you to stop typing---"
+                    this.debouncedGetAnswer()
+                }
+            },
+            created: function () {
+                // _.debounce 通过lodash限制操作频率的函数
+                // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
+                // AJAX 请求直到用户输入完毕才会发出
+                this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
+            },
+            methods: {
+                getAnswer: function () {
+                    if (this.question.indexOf("?") === -1) {
+                        this.answer = "Questions usually contain a question mark"
+                        return
+                    }
+                    this.answer = "Thinking..."
+                    var vm = this
+                    axios.get("https://yesno.wtf/api")
+                        .then(function (response) {
+                            vm.answer = _.capitalize(response.data.answer)
+                        })
+                        .catch(function (error) {
+                            vm.answer = "Error! Could not reach the API" + error
+                        })
+                }
+            }
+        })
+    </script>
+    <!-- 列表渲染  in可以用of替换-->
+    <ul id="example-1">
+        <li v-for="item1 in items">{{ item1.message}}</li>
+        <li v-for="(item,index) of itemss">
+            <p> {{parentMessage}}</p>
+            {{index}}:{{item.message}}
+        </li>
+    </ul>
+    <script>
+        var example1 = new Vue({
+            el: "#example-1",
+            data: {
+                items: [
+                    { message: "Foo" },
+                    { message: "Bar" },
+                ],
+                parentMessage: "Parent",
+                itemss: [
+                    { message: "Foo1" },
+                    { message: "Bar1" }
+                ]
+            }
+        })
+        // example1.itemss.push({ message: 'Bza' })  // push  追加
+        // example1.itemss.pop()  //pop 截取最后一个
+        // example1.items.shift()  //shift 截取最后一个
+        // example1.itemss.unshift()  //unshift 截取第一个一个
+        // example1.itemss.splice(1)  //splice 选取
+        //sort() 方法用于对数组的元素进行排序。
+
+        //    filter()  concat()  slice()  不给变原始数组  ，返回一个新数组
+
+        example1.items = example1.items.filter(function (item1) {
+            return item1.message.match(/Foo/)
+        })
+
+        // Vue.set(vm.items, indexOfItem, newValue)
+        // vm.items.splice(indexOfItem, 1, newValue)
+        // 在vue中是想利用索引设置数组项，修改数组长度等问题 进行响应式修改
+
+
+        // vue不能检测对象属性的添加或删除
     </script>
 
 </body>
