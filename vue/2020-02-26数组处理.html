@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+</head>
+
+<body>
+
+    <script>
+        // vue不能检测对象属性的添加和删改
+        var vm = new Vue({
+                data: {
+                    a: 1
+                }
+            })
+            // vm.a 现在是响应式的
+        vm.b = 2
+            // vm.b 不是响应式的
+
+        // 通过两个属性创建一个新的对象
+        var vm1 = new Vue({
+                data: {
+                    userProfile: {
+                        name: "Anika"
+                    }
+                }
+            })
+            // 添加一个新的属性给userProfile
+        Vue.set(vm1.userProfile, "age", 27)
+            // 或者
+        vm1.$set(vm1.userProfile, 'age', 27)
+        vm1.userProfile = Object.assign({}, vm1.userProfile, {
+            age: 27,
+            favoriteColor: "Vue Green"
+        })
+    </script>
+    <!-- 想要显示一个数组经过过滤或排序后的版本，而不实际给变或重置原始数据
+在这种情况下，可以创建一个计算属性，来返回过滤或排序后的数组 -->
+    <div id="app">
+        <ul>
+            <li v-for="n in evenNumbers">{{n}}</li>
+        </ul>
+    </div>
+    <script>
+        var vm2 = new Vue({
+            el: "#app",
+            data: {
+                numbers: [1, 2, 3, 4, 5]
+            },
+            computed: {
+                evenNumbers: function() {
+                    return this.numbers.filter(function(number) {
+                        return number % 2 === 0
+                    })
+                }
+            }
+        })
+    </script>
+    <!-- 在计算属性不适用的情况下，比如在嵌套v-for循环中使用一个方法 -->
+    <div id="app2">
+        <ul>
+            <li v-for="n in even(numbers)">{{n}}</li>
+        </ul>
+    </div>
+    <script>
+        var vm2 = new Vue({
+            el: "#app2",
+            data: {
+                numbers: [1, 2, 3, 4, 5]
+            },
+            methods: {
+                even: function(numbers) {
+                    return numbers.filter(function(number) {
+                        return number % 2 === 0
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
