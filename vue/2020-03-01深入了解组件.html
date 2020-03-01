@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+
+
+    <script>
+        // 1-局部组件：通过一个普通的js对象来定以组件
+        var ComonentA = {}
+        var ComonentB = {}
+        var ComonentC = {}
+            // 2-然后在component选项中定义想要使用的组件
+            // components对象的每个属性-----自定义元素名：组件的选项对象
+        new Vue({
+                el: "#app",
+                components: {
+                    'component-a': ComponentA,
+                    'component-b': ComonentB
+                }
+            })
+            /** 局部注册的组件在其子组件中不可用*/
+    </script>
+    <script>
+        /**
+         *在对象中放一个类似ComponentA的变量名相当于：ComponentA:ComponentA
+         *同时这个变量名是用在模板中的自定义元素的名称
+         * 包含了这个组件选项的变量名
+         */
+        import ComponentA from "./componentA.vue"
+
+        export default {
+            ComponentA
+        }
+    </script>
+
+    <script>
+        // 需要注意： 全局注册的行为必须在根Vue实例（通过new Vue）创建之前发生
+        import Vue from 'vue'
+        import UpperFirst from 'lodash/upperFirst'
+        import camelCase from 'lodash/camelCase'
+
+        const requireComponent = require.context(
+            // 其组件目录的相对路径
+            './components',
+            // 是否查询其子目录
+            false,
+            // 匹配基础组件问价名的正则表达式
+            /Base[A-Z]\.(vue|js)$/
+        )
+
+        requireComponent.keys().forEach(fileName => {
+            // 获取组件配置
+            const componentConfig = requireComponent(fileName)
+                // 获取组件的PascalCase命名
+            const componentName = upperFirst(
+                    camelCase(
+                        // 获取和目录深度无关的文件名
+                        fileName
+                        .split('/')
+                        .pop()
+                        .replace(/\.\w+$/, '')
+                    )
+                )
+                // 全局注册组件
+            Vue.component(
+                componentName,
+                // 如果这个组件选项是通过 `export default` 导出的，
+                // 那么就会优先使用 `.default`，
+                // 否则回退到使用模块的根。
+                componentConfig.default || componentConfig
+            )
+        })
+    </script>
+</body>
+
+</html>
