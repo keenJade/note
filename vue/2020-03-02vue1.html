@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <ul>
+            <li v-for="item in movies">{{item}}</li>
+        </ul>
+    </div>
+    <script>
+        const app = new Vue({
+            el: "#app",
+            data: {
+                message: "你好啊",
+                movies: ['1', '2', '3']
+            }
+        })
+    </script>
+
+    <!-- 计数器 -->
+    <div id="app1">
+        <h1>当前计数：{{counter}}</h1>
+        <!-- <button @click="{{counter++}}">+</button> -->
+        <!-- <button @click="{{counter--}}">-</button> -->
+        <button @click="addNumber">+</button>
+        <button @click="jianNumber">-</button>
+    </div>
+    <script>
+        var app1 = new Vue({
+            el: "#app1",
+            data: {
+                counter: '0'
+            },
+            methods: {
+                addNumber: function() {
+                    this.counter++
+                        alert('1')
+                },
+                jianNumber: function() {
+                    this.counter--
+                        alert('2')
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
