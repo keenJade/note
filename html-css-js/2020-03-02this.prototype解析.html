@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+        // js面向对象
+        /***Class使用方法*/
+        var Class = {
+            create: function () {
+                return function () {
+                    //1-- initialize :是一个变量，代表一个方法，用图是类的构造函数
+                    // 其基本功能靠js的面向对象支持
+
+                    // 4  apply() , call() 功能：对象object调用这里的function,不同： call参数从第二个开始都是传递给function，apply只有两个参数
+                    // 第二个是数组，其中储存了所有穿读给function的参数
+                    // function().call(object,{},{}...)
+                    // function().apply(object,[....])
+                    this.initialize.apply(this, arguments)
+                    //  5== 第一个this：用new调用构造函数之后生成的对象，也就是a
+                    // 第二个this ,指的是同一个对象，a调用initialize方法，参数arguments对象
+                    // 7  arguments就是create返回的构造函数的实参数组
+                }
+            }
+        }
+
+        var A = Class.create()
+        //  4. 以上的代码是为了  构造一个function复制给A，这个function指的是return返回的那个方法
+        A.prototype = {
+            initialize: function (v) {
+                this.value = v
+            },
+            showValue: function () {
+                alert(this.value)
+            }
+        }
+        var a = new A('Hello World')
+        a.showValue() // 弹出对话框helloword！
+
+        // 2. ClassName就是一个函数，当出现在new后面的时候就作为一个构造函数来构造对象
+        var ClassName = function (v) {
+            this.value = v
+            this.getValue = function () {
+                return this.value
+            }
+            this.setValue = function (v) {
+                this.value = v
+            }
+        }
+        //  3. 此时ClassName中的this就指向的事new之后构造出来的对象
+        var objectName = new ClassName('a')  //得到一个对象
+        objectName.setValue('heiil')
+        objectName.getValue()
+        console.log(objectName)
+
+        // 6 arguments对象
+        function test() {
+            alert(typeof arguments);  //object 说明arguments是对象
+            for (var i = 0; i < arguments.length; i++) {
+                alert(arguments[i])
+            }
+        }
+        test('1', "2", "3") //说明arguments就是调用函数的实参数组。
+        test('a', "b")
+    </script>
+</body>
+
+</html>
