@@ -157,9 +157,32 @@
         this.$emit('update:title', newTitle)
     </script>
 
+    <!-- 动态组件 -->
+    <div id="keep-alive">
+        <!-- 多标签的界面使用is 属性来切换不同的组件 -->
+        <component :is='currentTabComponent'></component>
+        <!-- 失活的组件被缓存 -->
+        <keep-alive>
+            <component :is="currentTabComponent"></component>
+        </keep-alive>
+    </div>
+    <!-- 异步组件 -->
+    <script>
+        Vue.component('async-example', function (resolve, reject) {
+            setTimeOut(function () {
+                // 像resolve回调传递组件定义
+                resolve({
+                    template: '<div> I am async!</div>'
+                })
+            }, 1000)
+        })
 
-
-
+        Vue.component('async-webpack-example', function (resolve) {
+            // 这个特殊的require语法会告诉webpack
+            // 自动将你的构建代码切割成多个包，这些包会通过ajax请求加载
+            require(['./my-async-component'], resolve)
+        })
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script src="./vue.js"></script>
+    <script>
+        // 在每个new Vue实例的子组件中，其根实例可以通过$root属性进行访问
+        // vue根实例
+        new Vue({
+            data: {
+                foo: 1
+            },
+            computed: {
+                bar: function () { }
+            },
+            methods: {
+                baz: function () { }
+            }
+        })
+        // 所有的子组件都可以将这个实例作为一个全局的store来访问或者使用
+        // 获取跟组件的数据
+        this.$root.foo
+        this.$root.foo = 1
+        this.$root.bar   // 访问跟组件的计算属性
+        this.$root.baz()  // 调用根组件的方法
+
+
+        // 但是一般情况，我们会使用Vuex来管理应用的状态
+    </script>
+
+    <!-- 和$root相似，$parent属性可以用来从一个子组件访问父组件的实例 
+            用来替代将数据已prop的方式传入子组件的方式-->
+
+    <!-- provide选项允许我们指定想要提供给后代组件的数据、方法 -->
+
+
+</body>
+
+</html>
