@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script src="./vue.js"></script>
+    <script>
+        // 定义一个混入对象
+        var myMixin = {
+            created: function () {
+                this.hello()
+            },
+            methods: {
+                hello: function () {
+                    console.log('hello from mixin !')
+                }
+            }
+        }
+
+        // 定义一个使用混入对象的组件
+        var Component = Vue.extend({
+            mixins: [myMixin]
+        })
+        var component = new Component()   //  hello from mixin
+    </script>
+    <!-- 全局混入 -->
+    <!-- 为自定义的选项myOption注入一个处理器 -->
+    <script>
+        Vue.mixin({
+            created: function () {
+                var myOption = this.$options.myOption
+                if (myOption) {
+                    console.log(myOption)
+                }
+            }
+        })
+        new Vue({
+            myOption: 'hello!'
+        })
+    </script>
+
+</body>
+
+</html>

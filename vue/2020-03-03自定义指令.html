@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script src="./vue.js"></script>
+    <script>
+        // 注册一个全局自定义指令v-focus
+        Vue.directive('focus', {
+            // 当被绑定的元素插入到dom中时
+            inserted: function (el) {
+                // 聚焦元素
+                el.focus()
+            },
+        })
+        // 如果想注册局部指令，组件中也接收一个directives选项
+        directives: {
+            focus: {
+                // 指令定义
+                inserted: function(el) {
+                    el.focus()
+                }
+            }
+        }
+
+        // 指令函数能够接收所有合法的js表达式
+        Vue.directive('demo', function (el, binding) {
+            console.log(binding.value.color)
+            console.log(binding.value.text)
+        })
+    </script>
+
+
+    <!-- render函数渲染 -->
+    <h1>{{blogTitle}}</h1>
+    <script>
+        render: function(creatElement) {
+            return cresteElement('h1', this.blogTitle)
+        }
+    </script>
+
+    <script src="./vue.js"></script>
+    <!-- 通过全局方法Vue.use()使用插件， 需要在new Vue()启动之前完成 -->
+    <script>
+        // 调用 MyPlugin.install(Vue)
+        Vue.use(MyPlugin)
+
+        new Vue({
+            // 组件选项
+        })
+        // 也可以传入一个可选的选项对象
+        Vue.use(MyPlugin, { someOption: true })
+    </script>
+
+
+    <script>
+        var Vue = require('vue')
+        var VueRouter = require('vue-router')
+
+        // 不要忘记调用此方法
+        Vue.use(VueRouter)
+    </script>
+
+    <!-- 过滤器 | -->
+    <!-- 在双花括号中     在v-bind中 -->
+    {{message | capitalize}}
+    <div :id=" rawId | formatId"></div>
+</body>
+
+</html>

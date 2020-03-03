@@ -18,3 +18,5 @@
    ---beforeDestroy
    ---解除绑定，销毁子组件以及事件监听器
    ---销毁完毕 destroyed
+
+
