@@ -19,4 +19,7 @@
    ---解除绑定，销毁子组件以及事件监听器
    ---销毁完毕 destroyed
 
-
+4. 响应式原理
+   在生成 vue 实例时，对传入的 data 进行遍历，通过 Object.defineProperty 将这些属性转为
+   getter/setter.
+   每个 vue 实例都有一个 watch 实例，它会在实例渲染时记录这些属性，并在 setter 触发时重新渲染

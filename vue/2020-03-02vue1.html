@@ -9,7 +9,7 @@
 </head>
 
 <body>
-
+    <!-- vue计数器 -->
     <div id="app">
         <ul>
             <li v-for="item in movies">{{item}}</li>
@@ -40,15 +40,44 @@
                 counter: '0'
             },
             methods: {
-                addNumber: function() {
+                addNumber: function () {
                     this.counter++
-                        alert('1')
+                    // alert('1')
                 },
-                jianNumber: function() {
+                jianNumber: function () {
                     this.counter--
-                        alert('2')
+                    // alert('2')
                 }
             },
+        })
+    </script>
+
+    <!-- 点击添加字体颜色 -->
+    <style scoped>
+        .active {
+            color: red;
+        }
+    </style>
+    <div id="app-2">
+        <ul>
+            <li v-for="(item,index) in movies" :class="{active:index == isSelect}" @click="bindColor(index)">
+                {{index}}：{{item}}</li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: "#app-2",
+            data: {
+                isSelect: false,
+                color: 'red',
+                movies: ['海贼王', '火影', '死神', '天空之城',]
+            },
+            methods: {
+                bindColor: function (index) {
+                    console.log(index)
+                    this.isSelect = index
+                }
+            }
         })
     </script>
 </body>
