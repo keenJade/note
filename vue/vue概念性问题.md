@@ -23,3 +23,11 @@
    在生成 vue 实例时，对传入的 data 进行遍历，通过 Object.defineProperty 将这些属性转为
    getter/setter.
    每个 vue 实例都有一个 watch 实例，它会在实例渲染时记录这些属性，并在 setter 触发时重新渲染
+
+5) vue 中常用的语句
+   computed 计算属性，用于对元数据进行修改
+   methods 方法属性，用于绑定方法
+   watch 数据变化监听器
+   filters 过滤器
+   mixins 用于减少代码污染，减少代码量，实现代码重用
+   extends 用于扩展，对构造器进行扩展

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div v-test="color">{{number}}</div>
+        <button @click="unbind()">解绑</button>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        // 自定义指令
+        Vue.directive("test", {
+            // 被绑定
+            bind: function (el, binding, vnode) {
+                console.log('1 被绑定')
+                console.log(el, binding, vnode)
+                el.style.color = binding.value
+            },
+            //被插入
+            inserted: function (el, binding, vnode) {
+                console.log('2 被插入')
+
+            },
+            // 更新
+            update: function (el, binding, vnode) {
+                console.log('3 更新')
+            },
+            // 更新完成
+            componentUpdated: function (el, binding, vnode) {
+                console.log('4 更新完成')
+            },
+            // 解绑
+            unbind: function (el, binding, vnode) {
+                console.log('5 解绑')
+            }
+        })
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                number: 123,
+                color: 'red'
+            },
+            methods: {
+                unbind: function () {
+                    this.$destroy()
+                }
+            }
+        })
+
+    </script>
+</body>
+
+</html>
