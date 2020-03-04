@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 1- 创建对象的方法 字面量 构造函数 Object.create -->
+    <script>
+
+        var o1 = { name: 'o1' }
+        var oo1 = new Object({ name: 'oo1' })
+        console.log(o1, oo1)
+
+        var M = function () { this.name = '02' }
+        var o2 = new M()
+        console.log(o2)
+        console.log(o2.name)
+
+        var P = { name: 'o3' }
+        var o3 = Object.create(P)   // 空数据，但是在原型链_proto_上面有那么属性
+        console.log(P, o3)
+
+
+    </script>
+    <!-- 
+        2- 原型及原型链
+           从对象的_proto_一直向上找原型，而原型也是一个对象，也有_proto_属性,
+           找到最后的object原型的时候，原型链就结束了 
+
+           函数是有prototype，对象没有，但是函数也有_proto_，因为函数也是对象
+           函数的_proto_指向的是Founction.prototype,也就是说普通函数是Function这个
+           构造函数的一个实例
+
+            实例就是对象，在本例中o3就是实例，M就是构造函数。
+            实例通过new一个构造函数生成的。
+            从上图中可以知道，实例的__protpo__指向的是原型对象。
+            实例的构造函数的prototype也是指向的原型对象。 
+            原型对象的construor指向的是构造函数。
+    -->
+
+    <!--
+         3- instanceof原理 
+            instanceof是判断实例对象的_proto_和生成该实例的构造函数的prototype是不是
+            引用的同一个地址，是的话返回true
+            o2  isntanceof Object    // true
+
+            在判断实例是由哪个构造函数生成的，需要用到constructor
+                实例的原型的构造函数  obj.__proto__.constructor
+     -->
+
+    <!-- 
+         4- new运算符
+            原理：一个新的对象被创建，它继承自foo.prototype;构造函数返回一个对象，在执行的时候，
+            相应的传参会被传入，同时上下文this指向这个新的实例，new foo 等同于new foo(),只能用在
+            不传参的情况；如果都早函数返回一个对象，那么这个对象会取代整个new出来的结果，如果构造函数
+            没有返回对象，那这个new 实例继承了foo.prototype
+    -->
+    <script>
+        var new2 = function (func) {
+            var o = Object.create(func.prototype)  // 创建对象
+            var k = func.call(o) // 改变this指向，把结果付给k
+            console.log(o, k)
+            if (typeof k === 'object') {
+                return k
+            } else {
+                return o
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

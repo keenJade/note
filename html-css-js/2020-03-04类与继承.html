@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+        1-类的声明和实例化 
+            两种方式
+    -->
+    <script>
+        // 类的声明
+        var Animal = function () {
+            this.name = 'Animal'
+        }
+        // es6中类的声明
+        class Animal2 {
+            constructor() {
+                this.name = 'Animal2'
+            }
+        }
+
+        // 实例化直接用new运算符
+        new Animal()
+        new Animal2()
+        console.log(new Animal())
+        console.log(new Animal2())
+    </script>
+
+    <!--
+         2- 如何实现继承
+            借助构造函数实现继承
+            借助原型链实现继承
+            两者结合
+            
+     -->
+
+
+    <!--
+         3-继承的几种方式 
+    -->
+    <script>
+        // @！ 借助构造函数实现继承
+        function Parent1() {
+            this.name = "parent1"
+        }
+
+        function Child1() {
+            // 在子类的函数体内执行父级的构造函数，同时改变函数运行上下文中this指向
+            // 缺点就是它只是把父类中的属性继承了，但是父类的原型中的属性继承不了
+            Parent1.call(this) // call替换成apply也可以
+            this.type = 'child1'
+        }
+        console.log(new Child1())
+        Parent1.prototype.say = function () {
+            console.log("hello world")
+        }
+        console.log(new Child1().say())
+        // error： (intermediate value).say is not a function
+    </script>
+    <script>
+        // @2 借助原型链实现继承
+        function Parent2() {
+            this.name = "parent2"
+            this.play = [1, 2, 3]
+        }
+        function Child2() {
+            this.type = "child2"
+        }
+        Child2.prototype = new Parent2()  // 通过吧child2的原型指向parent2来实现继承
+        console.log(new Child2())
+        var a1 = new Child2()
+        var a2 = new Child2()
+        a1.play.push(4)
+        console.log(a1.play, a2.play) // [1,2,3,4] [1,2,3,4]
+        // 修改a1属性，a2也会跟着给变，是因为a1修改的是原型的属性，这样所有继承的都会一起更改
+    </script>
+
+    <script>
+        // @3  两者相结合
+        function Person3() {
+            this.name = "Person3"
+            this.play = [1, 2, 3]
+        }
+        function Child3() {
+            Person3.call(this)  // 子类执行父类构造函数
+            this.style = "Child3"
+        }
+        Child3.prototype = new Person3()  // 子类的原型指向父类
+
+        var a3 = new Child3()
+        var a4 = new Child3()
+        a3.play.push(4)
+        console.log(a3.play, a4.play)
+        // [1,2,3,4]   [1,2,3]
+    </script>
+
+    <script>
+        //@4 结合后升级
+        function Person4() {
+            this.name = "Person4"
+            this.play = [1, 2, 3]
+        }
+        function Child4() {
+            Person4.call(this)
+            this.style = "Child4"
+        }
+        Child4.prototype = Person4.prototype
+        var a5 = new Child4()
+        var a6 = new Child4()
+        console.log(a5 instanceof Child4, a6 instanceof Person4)  // true true
+        console.log(a5.constructor, a6.constructor) // Person4
+        // 并没有直接把子类的原型指向父类，而是指向了父类的原型
+        // 问题是:a5,a6是Child4创建的，但是constructor却指向Person4
+         // 是因为Child4这个类并没有构造函数，他的构造函数是在原型链的上一级拿过来的
+    </script>
+
+    <script>
+        // @5 升级后的升级
+        function Person5() {
+            this.name = "Person5"
+            this.play = [1, 2, 3]
+        }
+        function Child5() {
+            Person5.call(this)
+            this.style = "Child5"
+        }
+
+        // 把子类的原型指向通过Object.create创建的中间对象
+        Child5.prototype = Object.create(Person5.prototype)
+        // 把Child5的原型构造函数指向自己
+        Child5.prototype.constructor = Child5
+        var a7 = new Child5()
+        console.log(a7 instanceof Child5, a7 instanceof Person5)
+        console.log(a7.constructor)  // a7的构造函数指向了Child5
+    </script>
+
+</body>
+
+</html>
