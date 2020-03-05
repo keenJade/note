@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .active {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(item,index) in movies" :class="{active:currentIndex == index}" @click="handleColor(index)"> {{item}}</li>
+            <!-- <li v-for="(item,index) in movies" :class="{active:index == isSelect}" @click="handleColor(index)"> {{item}}</li> -->
+        </ul>
+    </div>
+    <script src='./vue.js'></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                isSelect: false,
+                currentIndex: 0,
+                movies: ['海贼王', '火影', '死神', '秦时明月']
+            },
+            methods: {
+                // handleColor: function(index) {
+                //     console.log(index)
+                //     this.isSelect = index
+                // }
+                handleColor(index) {
+                    this.currentIndex = index
+                }
+            },
+
+        })
+    </script>
+</body>
+
+</html>
