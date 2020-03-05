@@ -108,7 +108,7 @@
             },
             computed: {
                 computedList: function () {
-                    var vm = this
+                    const vm = this
                     return this.list.filter(function (item) {
                         return item.msg.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1
                     })
@@ -120,7 +120,7 @@
                     el.style.height = 0
                 },
                 enter: function (el, done) {
-                    var delay = el.dataset.index * 150
+                    const delay = el.dataset.index * 150
                     setTimeout(function () {
                         Velocity(
                             el,
@@ -129,7 +129,7 @@
                     }, delay)
                 },
                 leave: function (el, done) {
-                    var delay = el.dataset.index * 150
+                    const delay = el.dataset.index * 150
                     setTimeout(function () {
                         Velocity(
                             el,
@@ -161,7 +161,7 @@
     <script src="https://cdn.jsdelivr.net/npm/tween.js@16.3.4"></script>
     <script src="https://cdn.jsdelivr.net/npm/color-js@1.0.3"></script>
     <script>
-        var Color = net.brehaut.Color
+        const Color = net.brehaut.Color
         new Vue({
             el: "#example-7",
             data: {

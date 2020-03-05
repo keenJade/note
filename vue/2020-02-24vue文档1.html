@@ -53,25 +53,25 @@
     <script>
         Vue.config.devtools = true;
 
-        var app = new Vue({
+        const app = new Vue({
             el: "#app",
             data: {
                 message: 'Hello Vue!'
             }
         })
-        var appp2 = new Vue({
+        const appp2 = new Vue({
             el: "#app-2",
             data: {
                 message: '页面加载' + new Date().toLocaleString()
             }
         })
-        var app3 = new Vue({
+        const app3 = new Vue({
             el: "#app-3",
             data: {
                 seen: true
             }
         })
-        var app4 = new Vue({
+        const app4 = new Vue({
             el: "#app-4",
             data: {
                 todos: [
@@ -80,7 +80,7 @@
                 ]
             }
         })
-        var app5 = new Vue({
+        const app5 = new Vue({
             el: "#app-5",
             data: {
                 message: "hello vue.js"
@@ -91,7 +91,7 @@
                 }
             }
         })
-        var app6 = new Vue({
+        const app6 = new Vue({
             el: "#app-6",
             data: {
                 message: "hello vue!"
@@ -108,7 +108,7 @@
             props: ['todo'],
             template: '<li>{{todo.text}}</li>'
         })
-        var vm = new Vue({
+        const vm = new Vue({
             el: "#app7",
             data: {
                 groceryList: [

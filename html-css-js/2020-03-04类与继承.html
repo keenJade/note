@@ -14,7 +14,7 @@
     -->
     <script>
         // 类的声明
-        var Animal = function () {
+        const Animal = function () {
             this.name = 'Animal'
         }
         // es6中类的声明
@@ -73,8 +73,8 @@
         }
         Child2.prototype = new Parent2()  // 通过吧child2的原型指向parent2来实现继承
         console.log(new Child2())
-        var a1 = new Child2()
-        var a2 = new Child2()
+        const a1 = new Child2()
+        const a2 = new Child2()
         a1.play.push(4)
         console.log(a1.play, a2.play) // [1,2,3,4] [1,2,3,4]
         // 修改a1属性，a2也会跟着给变，是因为a1修改的是原型的属性，这样所有继承的都会一起更改
@@ -92,8 +92,8 @@
         }
         Child3.prototype = new Person3()  // 子类的原型指向父类
 
-        var a3 = new Child3()
-        var a4 = new Child3()
+        const a3 = new Child3()
+        const a4 = new Child3()
         a3.play.push(4)
         console.log(a3.play, a4.play)
         // [1,2,3,4]   [1,2,3]
@@ -110,8 +110,8 @@
             this.style = "Child4"
         }
         Child4.prototype = Person4.prototype
-        var a5 = new Child4()
-        var a6 = new Child4()
+        const a5 = new Child4()
+        const a6 = new Child4()
         console.log(a5 instanceof Child4, a6 instanceof Person4)  // true true
         console.log(a5.constructor, a6.constructor) // Person4
         // 并没有直接把子类的原型指向父类，而是指向了父类的原型
@@ -134,7 +134,7 @@
         Child5.prototype = Object.create(Person5.prototype)
         // 把Child5的原型构造函数指向自己
         Child5.prototype.constructor = Child5
-        var a7 = new Child5()
+        const a7 = new Child5()
         console.log(a7 instanceof Child5, a7 instanceof Person5)
         console.log(a7.constructor)  // a7的构造函数指向了Child5
     </script>

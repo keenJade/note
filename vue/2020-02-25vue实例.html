@@ -16,7 +16,7 @@
     </div>
     <script>
         //  Object.freeze()  阻止修改现有属性
-        var obj = { foo: 'bar' }
+        const obj = { foo: 'bar' }
         Object.freeze(obj)
         new Vue({
             el: "#app",
@@ -30,7 +30,7 @@
     </div>
     <script>
 
-        // var vm =new Vue({
+        // const vm =new Vue({
         //     // 如果你知道你会在晚些时候需要一个属性，但是一开始它为空或不存在，那么你仅需要设置一些初始值
         //     data:{
         //         newTodoText:'',
@@ -43,8 +43,8 @@
 
 
         // vue实例还暴露了一些实例属性和方法，都有前缀$，为了和用户自定义的区分
-        var data = { a: 1 }
-        var vm = new Vue({
+        const data = { a: 1 }
+        const vm = new Vue({
             el: "#example",
             data: data
         })
@@ -61,7 +61,7 @@
         })
 
         // created 挂载阶段还没有开始
-        var vm1 = new Vue({
+        const vm1 = new Vue({
             data: {
                 a: 1
             },
@@ -81,8 +81,8 @@
     </div>
     <script>
 
-        var data2 = { 'msg': 22 }
-        var vm2 = new Vue({
+        const data2 = { 'msg': 22 }
+        const vm2 = new Vue({
             el: "#app1",
             data: data2
         })
@@ -94,7 +94,7 @@
         <p>Using v-html directive: <span v-html="rawHtml"></span></p>
     </div>
     <script>
-        var vm3 = new Vue({
+        const vm3 = new Vue({
             el: "#app2",
             data: {
                 rawHtml: '<span>this is model</span>'
@@ -117,7 +117,7 @@
         <button :disable="isButtonDisabled">Button</button>
     </div>
     <script>
-        var vm4 = new Vue({
+        const vm4 = new Vue({
             el: "#app3",
             data: {
                 dynamicId: true,
@@ -150,7 +150,7 @@
         <!-- <p>Computed reversed message:"{{ reversedMessage()}}"</p> -->
     </div>
     <script>
-        var vm = new Vue({
+        const vm = new Vue({
             el: "#example1",
             data: {
                 message: "hello"
@@ -174,7 +174,7 @@
     <!-- // 侦听属性：观察和响应vue实例上的数据变动 -->
     <div id="demo">{{ fullName}}</div>
     <script>
-        var vm = new Vue({
+        const vm = new Vue({
             el: "#demo",
             data: {
                 firstName: "Foo",
@@ -211,7 +211,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
     <script>
-        var watchExampleVM = new Vue({
+        const watchExampleVM = new Vue({
             el: "#watch-example",
             data: {
                 question: "",
@@ -240,7 +240,7 @@
                         return
                     }
                     this.answer = "Thinking..."
-                    var vm = this
+                    const vm = this
                     axios.get("https://yesno.wtf/api")
                         .then(function (response) {
                             vm.answer = _.capitalize(response.data.answer)
@@ -261,7 +261,7 @@
         </li>
     </ul>
     <script>
-        var example1 = new Vue({
+        const example1 = new Vue({
             el: "#example-1",
             data: {
                 items: [

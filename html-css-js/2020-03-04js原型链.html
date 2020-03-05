@@ -11,17 +11,17 @@
     <!-- 1- 创建对象的方法 字面量 构造函数 Object.create -->
     <script>
 
-        var o1 = { name: 'o1' }
-        var oo1 = new Object({ name: 'oo1' })
+        const o1 = { name: 'o1' }
+        const oo1 = new Object({ name: 'oo1' })
         console.log(o1, oo1)
 
-        var M = function () { this.name = '02' }
-        var o2 = new M()
+        const M = function () { this.name = '02' }
+        const o2 = new M()
         console.log(o2)
         console.log(o2.name)
 
-        var P = { name: 'o3' }
-        var o3 = Object.create(P)   // 空数据，但是在原型链_proto_上面有那么属性
+        const P = { name: 'o3' }
+        const o3 = Object.create(P)   // 空数据，但是在原型链_proto_上面有那么属性
         console.log(P, o3)
 
 
@@ -60,9 +60,9 @@
             没有返回对象，那这个new 实例继承了foo.prototype
     -->
     <script>
-        var new2 = function (func) {
-            var o = Object.create(func.prototype)  // 创建对象
-            var k = func.call(o) // 改变this指向，把结果付给k
+        const new2 = function (func) {
+            const o = Object.create(func.prototype)  // 创建对象
+            const k = func.call(o) // 改变this指向，把结果付给k
             console.log(o, k)
             if (typeof k === 'object') {
                 return k

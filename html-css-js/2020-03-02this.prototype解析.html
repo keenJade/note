@@ -13,7 +13,7 @@
     <script>
         // js面向对象
         /***Class使用方法*/
-        var Class = {
+        const Class = {
             create: function () {
                 return function () {
                     //1-- initialize :是一个变量，代表一个方法，用图是类的构造函数
@@ -31,7 +31,7 @@
             }
         }
 
-        var A = Class.create()
+        const A = Class.create()
         //  4. 以上的代码是为了  构造一个function复制给A，这个function指的是return返回的那个方法
         A.prototype = {
             initialize: function (v) {
@@ -41,11 +41,11 @@
                 alert(this.value)
             }
         }
-        var a = new A('Hello World')
+        const a = new A('Hello World')
         a.showValue() // 弹出对话框helloword！
 
         // 2. ClassName就是一个函数，当出现在new后面的时候就作为一个构造函数来构造对象
-        var ClassName = function (v) {
+        const ClassName = function (v) {
             this.value = v
             this.getValue = function () {
                 return this.value
@@ -55,7 +55,7 @@
             }
         }
         //  3. 此时ClassName中的this就指向的事new之后构造出来的对象
-        var objectName = new ClassName('a')  //得到一个对象
+        const objectName = new ClassName('a')  //得到一个对象
         objectName.setValue('heiil')
         objectName.getValue()
         console.log(objectName)
@@ -63,7 +63,7 @@
         // 6 arguments对象
         function test() {
             alert(typeof arguments);  //object 说明arguments是对象
-            for (var i = 0; i < arguments.length; i++) {
+            for (const i = 0; i < arguments.length; i++) {
                 alert(arguments[i])
             }
         }
