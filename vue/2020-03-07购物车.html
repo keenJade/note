@@ -117,11 +117,15 @@
             },
             computed: {
                 allPricenum(index) {
-                    let allPricenum = 0
-                    for (let i = 0; i < this.books.length; i++) {
-                        allPricenum += this.books[i].price * this.books[i].inputValue
-                    }
-                    return allPricenum
+                    // let allPricenum = 0
+                    // for (let i = 0; i < this.books.length; i++) {
+                    //     allPricenum += this.books[i].price * this.books[i].inputValue
+                    // }
+                    // return allPricenum
+                    // 使用高阶函数reduce】
+                    return this.books.reduce(function(preValue, books) {
+                        return preValue + books.price * books.inputValue
+                    }, 0)
                 }
             },
             // 第二种方法  通过过滤器实现
