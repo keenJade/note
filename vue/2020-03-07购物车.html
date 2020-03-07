@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车</title>
+    <style>
+        td {
+            width: 84px;
+            text-align: center;
+        }
+        
+        input {
+            width: 22px;
+            text-align: center;
+        }
+        
+        button {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div v-if="books.length >0">
+            <table>
+                <thead>
+                    <tr>
+                        <template v-for=" tableHead in tableHead ">
+                           <th> {{tableHead}}</th>
+                        </template>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <template v-for="(books,index) in books " v-key="index ">
+                        <tr >
+                            <td>{{ books.id }}</td>
+                            <td>{{ books.name }}</td>
+                            <td>{{ books.time }}</td>
+                            <!-- 第一种方法 -->
+                            <!-- <td>{{ getPrice(books.price) }}</td> -->
+                            <!--   过滤器实现  {{参数 ｜ 过滤器名字}} -->
+                            <td>{{ books.price  | getPrice}}</td>
+                            <td>
+                                <div>
+                                    <button @click="reduce(index) " :disabled ="books.inputValue <=0 ">-</button>
+                                    <input type="number " v-model='books.inputValue'>
+                                    <button @click="add(index) ">+</button>
+                                </div>
+                            </td>
+                            <td><button @click="removeDom(index) ">移除</button></td>
+                        </tr>
+                    </template>
+                    <tr>
+                        <td class="all-price ">总价：{{ allPricenum | getPrice }}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div v-else>购物车空空如也</div>
+
+    </div>
+
+    <script src="./vue.js "></script>
+    <script>
+        const app = new Vue({
+            el: "#app ",
+            data: {
+                tableHead: [" 序号 ", " 书籍名称 ", " 出版日期 ", " 价格 ", "购买数量 ", " 操作 "],
+                books: [{
+                    id: '1',
+                    name: "《html》 ",
+                    time: "2006-9 ",
+                    price: 85.00,
+                    inputValue: 1
+                }, {
+                    id: '2',
+                    name: "《vue》 ",
+                    time: "2006-9 ",
+                    price: 35.00,
+                    inputValue: 1
+                }, {
+                    id: '3',
+                    name: "《js》 ",
+                    time: "2006-9 ",
+                    price: 45.00,
+                    inputValue: 1
+                }, {
+                    id: '4',
+                    name: "《css》 ",
+                    time: "2006-9 ",
+                    price: 405.00,
+                    inputValue: 1
+                }],
+                allPrice: 0,
+
+            },
+
+            methods: {
+                // 第一种方法
+                // getPrice(price) {
+                //     return "¥ " + price.toFixed(2)
+                // },
+                reduce: function(index) {
+                    this.books[index].inputValue--
+                },
+                add: function(index) {
+                    this.books[index].inputValue++
+                },
+                removeDom(index) {
+                    this.books.splice(index, 1)
+                }
+            },
+            computed: {
+                allPricenum(index) {
+                    let allPricenum = 0
+                    for (let i = 0; i < this.books.length; i++) {
+                        allPricenum += this.books[i].price * this.books[i].inputValue
+                    }
+                    return allPricenum
+                }
+            },
+            // 第二种方法  通过过滤器实现
+            filters: {
+                getPrice(price) {
+                    return "¥ " + price.toFixed(2)
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
