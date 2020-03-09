@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <cpn></cpn>
+    </div>
+
+    <script src="./vue.js"></script>
+    <script>
+        // 创建组件构造器
+        const cpnC = Vue.extend({
+                template: `<div>this is book</div>`
+            })
+            // 注册组件（全局组件）
+        Vue.component("cpn", cpnC)
+
+        const app = new Vue({
+            el: "#app",
+            data: {
+                message: "44"
+            }
+        })
+    </script>
+</body>
+
+</html>

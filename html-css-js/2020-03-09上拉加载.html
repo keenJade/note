@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <!-- 
+        需求： 页面滚动底部，显示正在加载...提示
+              执行加载业务数据逻辑
+              加载完毕，隐藏正在加载提示
+
+     -->
+    <script>
+        const page = 1, // 分页码
+            off_on = false, //分页开关
+            timers = null // 定时器
+
+        $(".main").scroll(function() {
+                // 当滚动条离底部60px时，开始加载下一页的内容
+                if (($(this)[0].scrollTop + $(this).height() + 60) >= $(this)[0].scrollHeight) {
+                    // 这里要用off_on控制是否加载，解决当上页条件满足时，一下子加载多次的问题
+                    if (off_on) {
+                        //off_on =false
+                        // page++
+                        //loadingDataFn() // 调用执行上面的加载方法
+                    }
+                }
+            })
+            // 加载数据
+        const LoadingDataFn = function() {
+            let dom = ""
+            for (let i = 0; i < 20; i++) {
+                dom += `<div></div>`
+            }
+            $(".list").append(dom)
+            off_on = true // 为了下一次的加载
+        }
+    </script>
+</body>
+
+</html>
