@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <cpn></cpn>
+
+        <!-- 方法一 -->
+    </div>
+
+    <script src="./vue.js"></script>
+    <!-- 注册组件时，分离模板的两种方式 -->
+    <!-- 通过script标签type类型为text/x-template -->
+    <script type="text/x-template" id="cpn1">
+        <div>
+            <h3>这是一个组件</h3>
+            <p>这是第二个</p>
+        </div>
+    </script>
+    <!-- 第二种  分离  通过template标签 -->
+    <template id="cpn2">
+        <div>
+            <h3>这是一个组件</h3>
+            <p>这是第三个</p>
+        </div>
+    </template>
+    <script>
+        // Vue.component("cpn", {
+        //     template: `
+        //     <div>
+        //         <h3>这是一个组件</h3>
+        //         <p>这是第一个</p>
+        //         </div>
+        //     `
+        // })
+
+        // 1分离： 
+        // Vue.component('cpn', {
+        //     template: '#cpn1'
+        // })
+
+        // 2 分离
+        Vue.component('cpn', {
+            template: '#cpn2'
+        })
+
+        const app = new Vue({
+            el: "#app"
+        })
+    </script>
+</body>
+
+</html>
