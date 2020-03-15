@@ -8,52 +8,67 @@
 </head>
 
 <body>
+    <!-- 父组件 -->
     <div id="app">
-        <cpn></cpn>
+        <cpn1 @handlename="cpnClick"></cpn1>
 
-        <!-- 方法一 -->
     </div>
 
-    <script src="./vue.js"></script>
-    <!-- 注册组件时，分离模板的两种方式 -->
-    <!-- 通过script标签type类型为text/x-template -->
-    <script type="text/x-template" id="cpn1">
+
+    <template id="cpn1">
         <div>
-            <h3>这是一个组件</h3>
-            <p>这是第二个</p>
-        </div>
-    </script>
-    <!-- 第二种  分离  通过template标签 -->
-    <template id="cpn2">
-        <div>
-            <h3>这是一个组件</h3>
-            <p>这是第三个</p>
+           <button v-for="item in categories" @click="handlename(item)">{{item.name}}</button>
         </div>
     </template>
+    <script src="./vue.js"></script>
     <script>
-        // Vue.component("cpn", {
-        //     template: `
-        //     <div>
-        //         <h3>这是一个组件</h3>
-        //         <p>这是第一个</p>
-        //         </div>
-        //     `
-        // })
+        // 自组件
 
-        // 1分离： 
-        // Vue.component('cpn', {
-        //     template: '#cpn1'
-        // })
-
-        // 2 分离
-        Vue.component('cpn', {
-            template: '#cpn2'
-        })
+        const cpn1 = {
+            template: "#cpn1",
+            data() {
+                return {
+                    categories: [{
+                        id: "aaa",
+                        name: "one"
+                    }, {
+                        id: "bbb",
+                        name: "two"
+                    }, {
+                        id: "cccc",
+                        name: "three"
+                    }, {
+                        id: "dddd",
+                        name: "for"
+                    }, ]
+                }
+            },
+            methods: {
+                handlename(item) {
+                    this.$emit("handlename", item)
+                }
+            }
+        }
 
         const app = new Vue({
-            el: "#app"
+            el: "#app",
+            data: {
+                message: "this is a model"
+            },
+            components: {
+                cpn1
+            },
+            methods: {
+                cpnClick(item) {
+                    console.log(item)
+                }
+            }
         })
     </script>
+
+
+
+
 </body>
 
 </html>

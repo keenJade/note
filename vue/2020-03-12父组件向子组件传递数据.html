@@ -24,7 +24,20 @@
         // 父传子  props
         const cpn = {
             template: '#cpn',
-            props: ['cmovies', 'cmessage'],
+            // props: ['cmovies', 'cmessage'],
+            // 另一种写法
+            props: {
+                // 1 类型限制
+                // cmoview:Array,
+                // cmessage:String
+
+                // 2 提供一些默认直
+                cmessage: {
+                    type: String,
+                    default: "没传时默认的值",
+                    repuired: true, //  添加了required表示必须传，否则报错
+                }
+            },
             data() {
                 return {}
             }
