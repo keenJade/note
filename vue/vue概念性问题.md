@@ -89,7 +89,23 @@
          v-slot指令v-slot=slot，将自己想要的内容放进去
 
 9. 前端模块化：
-      
+      commonJS, AMD,CMD,ES6的Modules
+      node就是commonJS实现的
+         核心：导出和导入
+         通过module.exports导出一个对象，将需要导出的属性以键值对的形式定义，
+         es6可以直接写一个健
+       通过require导入  require（路径）
+
+      ##### 在es6中实现导入与导出
+      在我们引入的文件中，需要在script标签中添加type 属性，type=module，才能进行底层的支持
+
+      我们可以将需要导入的内容全部放在一个对象中
+      如果需要将所有的内容统一的导入的时候，需要这样做：
+        ``` import * as aaa from "./aaa.js" ```
+         --- 导出：export  可以导出一个对象 可以导出函数，可以导出类
+               我们还可以用到export default进行导出 可以自定义，但是export default
+               默认的只能有一个，需要导入者自己定义命名的时候才能使用
+         --- 导入：import{导入的属性名，可以多个} from "模块路径名"
 
 10. webpack:
 
