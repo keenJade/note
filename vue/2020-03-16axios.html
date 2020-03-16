@@ -1,0 +1,66 @@
+
+  <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    // 初始化的时候实现两个需求：
+     //发送请求时携带cookie； 再次发送请求时，如果第一次相同的请求没有结束，需要终止第一次的请求
+      const httpServer = axios.create({
+          responseType: 'json',
+          withCredentials: true, // 设置 withCredentials 使请求带上 `cookies`
+          cancelToken: new axios.CancelToken(function (c) {
+            cancel = c // 记录当前请求的取消方法
+          })
+        })
+        
+        // ---------路由拦截----------------
+        /**在定义完路由之后，我们会通过vue-router的beforeEach对路由进行判断
+          beforeEach接收三个参数：to from next  ,判断路由是否登录，通过vuex的state获取当前的token是否存在，否则将跳转的
+          路由path作为参数，在登录成功之后跳转到该路由
+          to:去到的路由  from：离开的路由  next必须调用这个方法来resolve这个钩子
+        */
+        // ----------------拦截器----------------
+         /**要想统一拦截http请求和响应，需要使用axios的拦截器
+          通过配置HTTP response interceptor,后端接口返回401 Unauthorized（未授权），让用户重新登录。
+        */
+        // http request 拦截器
+axios.interceptors.request.use(
+  config => {
+    if (store.state.token) { // 判断是否存在token，如果存在的话，则每个http header都加上token
+      config.headers.Authorization = `token ${store.state.token}`;
+    }
+    return config;
+  },
+  err => {
+    return Promise.reject(err);
+  });
+// http response 拦截器
+axios.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          // 返回 401 清除token信息并跳转到登录页面
+          store.commit(types.LOGOUT);
+          router.replace({
+            path: 'login',
+            query: {redirect: router.currentRoute.fullPath}
+          })
+      }
+    }
+    return Promise.reject(error.response.data)  // 返回接口返回的错误信息
+  });
+    </script>
+</body>
+
+</html>
