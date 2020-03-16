@@ -108,6 +108,18 @@
          --- 导入：import{导入的属性名，可以多个} from "模块路径名"
 
 10. webpack:
+         gulp： -前端流程的自动化
+         webpack强调模块化开发  模块化打包工具
+               为了正常运行，必须依赖node环境，node运行必须安装好多包。node自带了软件包管理工具nom
+               npm：就是一个node的包管理
+         npm install webpack@3.6.0 -g
+         局部安装webpack
+
+         打包css---- loader的使用  css-loader只负责加载css文件，
+               添加dom渲染的时候，需要用到style-loader;
+               使用多个loader时，是从右向左运行
+
+
 
 11. Vue cli:
 
