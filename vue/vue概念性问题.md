@@ -126,6 +126,22 @@
                将所有图放在同一个文件夹中，需要防止重复，显示原来的名字，
                img/[name].[hash:8].[ext] 通过name属性进行命名配置
 
+         ES6语法的处理：
+            babel-loader   babel中都是es5的语法
+
+
+         如何在webpack中配置vue ：
+            runTime-only 中不能有任何的template
+                  因为他没有包含编译的代码
+            runTime-compiler  中有可编译的代码，因为有compiler来编译template
+
+            plugin就是插件的意思
+               对现有的框架进行扩展就是一个插件；
+               loader: 加载某些文件，是一个转换的作用
+               plugin: 扩充的功能，就是对webpack进行本身的扩充
+               给打包文件进行版本申明
+               
+
 11. Vue cli:
 
 12. Vuex: 是vue.js的状态管理库，也可以说是响应式的全局变量
