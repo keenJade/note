@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul>
+        <li>变量提升</li>
+        <!-- 1 -->
+        <script>
+            console.log(a)   // 在打印a的时候，a变量已经存在但是没有赋值，所以会显示underfined，而不是报错
+            var a;   //undefined
+
+            // 此处是函数声明
+            fun(3);
+            function fun(opt) {
+                c = 20;
+                console.log(opt, c)   // 3 20
+                var c;
+            }
+
+            // 此处是函数表达式，函数表达式中的函数体是不会被提升的
+            // fun2('joe')   // 报错：fun2 is not a function
+            // var fun2 = function () {
+            //     return "333"
+            // }
+
+
+            // var fun3; // 报错：fun2 is not a function
+            // fun3('this is 4');
+            // fun3 = function () {
+            //     return "444"
+            // }
+
+            /** 总结“js会将所有的声明提前，然后再执行赋值等其他操作*/
+
+        </script>
+
+
+        <li>this使用</li>
+        <!-- 2 -->
+        <script>
+            var A = {
+                name: 'a',
+                get: function () {
+                    console.log(this.name)  // 1-- 无法明确this 指向谁
+                    // 2-- this指向a
+                    // 3-- this指向B
+                    // 4 --  
+                    // 总结：  谁调用get方法,this就指向谁
+                }
+            }
+            A.get()  // 2--
+            A.get.call({ name: 'B' })  // 3--
+
+            var fun1 = A.get
+            fun1()  // 4 --此处指向window，window没有name属性，所以输出为空
+
+
+            /** *
+             * this使用：call,apply,bind; 构造函数内部；对象属性
+             */
+            // 1-- 作为构造函数执行
+            function B(name) {
+                this.name = name
+            }
+            // 2-- 作为对象属性
+            var Animal = {
+                name: "dog",
+                asFunction: function () {
+                    return this.name
+                }
+            }
+            Animal.asFunction()
+
+            // 3-- call,apply,bind  能够给变this的指向  apply将多个对象放在一个数组中传递；call传多个对象
+                            // bind在函数声明的时候使用，只有函数表达式可以使用，函数声明是错误的
+        </script>
+
+        <li>作用域</li>
+        <script>
+            // js没有块级作用域
+            // es6引进的const，let都有块级作用
+            /***
+             * 函数内部声明的变量函数外部不可以使用**/
+            var o = 3
+            function fund() {
+                var o = 5;
+                console.log("in" + o)  // 5
+            }
+            console.log("out" + o)  //3
+            fund()
+        </script>
+
+        <li>闭包</li>
+        <script>
+            // 举例闭包  :主要用做   涉及私有方法和变量
+            // 1--闭包的理解：函数被外部函数调用之后，内部的变量应该被销毁，但是闭包存在的情况下，会再次使用这些变量
+            function out() {
+                var a = 1;
+                return function () {
+                    return a;
+                }
+            }
+            var b = out()
+            console.log(b()) // 1
+
+            // 2--创建闭包最常用的方式：在一个函数内部创建另一个函数
+            function creatClose() {
+                var a = 1,
+                    b = 2;
+                return {
+                    // 创建两个闭包函数
+                    addNum: function () {
+                        return a + b
+                    },
+                    reduceNum: function () {
+                        return a - b
+                    }
+                }
+            }
+            var add = creatClose()
+            console.log(add.addNum()) // 3
+            console.log(add.reduceNum()) // -1
+
+            // 3--  函数的作用域和变量会在执行后被销毁，但是在闭包被创建后，变量和作用域会一直存在到闭包不能存在为止
+            function addFunction(x) {
+                return function (y) {
+                    return x + y
+                }
+            }
+            var fuc3 = addFunction(3)
+            var fuc5 = addFunction(5)
+            console.log(fuc3(2)) // 5
+            console.log(fuc5(2)) // 7
+            // 释放对闭包的使用，就会被垃圾回收机制处理
+            fuc3 = null
+            fuc5 = null
+
+            // windows才是匿名函数功能执行的环境,obj.getName()()在全局作用域中调动了匿名函数
+            var name = "window"
+            var obj = {
+                name: "object",
+                getName: function () {
+                    // var that=this     
+                    return function () {
+                        return this.name
+                        // return that.name     // 此时的this 指的是外部函数的执行环境
+                    }
+                }
+            }
+            console.log(obj.getName()()) // window
+
+            function fun(n, o) {
+                console.log(o);
+                return {
+                    fun: function (m) {
+                        return fun(m, n); //n
+                    }
+                }
+            }
+            var a1 = fun(0); //underfine
+            a1.fun(1) // 1
+            a1.fun(2) // 2
+            a1.fun(3) // 3
+
+            var b1 = fun(0).fun(1).fun(2).fun(3) // 
+            var c1 = fun(0).fun(1) // 
+            c1.fun(2) // 
+            c1.fun(3) //
+        </script>
+    </ul>
+</body>
+
+</html>

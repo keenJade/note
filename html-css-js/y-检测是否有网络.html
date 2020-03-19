@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        /**检测是否处于在线状态，完整的在线判断需要通过XHR请求来协助判断
+         * @description:检测当前url主机地址对否可选
+         * @return:true服务器可达（online） 服务器不可达（offline）
+         */
+        function serverReachable() {
+            let xhr = new(window.ActiveXObject || XMLHttpRequest)("Microsoft.XMLHTTP")
+            xhr.open("HEAD", "//" + window.location.hostname + "/?rand=" + Math.random(), false)
+            try {
+                xhr.send();
+                status = xhr.status
+                return status >= 200 && status < 300 || status === 304
+            } catch (error) {
+                return false
+            }
+        }
+        /***
+         *@description:检测浏览器是否处于联网状态
+         *@return  :true联网false没有联网
+         */
+        function networkReachable() {
+            return navigator.onLine
+        }
+
+        /***
+         *@description:检测数据是否布尔类型
+         *@param{type}  数据
+         *@return  :true布尔类型false不是布尔类型
+         */
+        function isBoolean(value) {
+            return Object.prototype.toString.call(value) === "[object Boolean]"
+        }
+
+        /***
+         *@description:检测是否处于在线状态
+         *@return  true: 在线（onLine） false: 非在线（offLine）
+         */
+        export default function checkIsOnline() {
+            let networkStatus = networkReachable()
+            if (isBlooean(networkStatus)) {
+                if (networkStatus) {
+                    return true
+                } else if (serverReachable()) {
+                    return true
+                } else {
+                    return false
+                }
+            } else {
+                //浏览器不支持onLine属性，降级使用服务是否可达来判断
+                return serverReachable()
+            }
+        }
+    </script>
+</body>
+
+</html>
