@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="weui-cell">
+        <div class="weui-cell__bd">
+            <input class="weui-input fs28 color_w" type="number" pattern="[0-9]*" placeholder="请输入验证码">
+        </div>
+        <div class="weui-cell__ft">
+            <span class="fs24 color_b getCode" onclick="codeButton()">发送验证码</span>
+            <span class="fs24 color_b time" style="display: none">60s</span>
+        </div>
+    </div>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        function codeButton() {
+            var [timeObj, getCodeObj] = [$(".time"), $(".getCode")];
+            getCodeObj.hide()
+            timeObj.show()
+            var time = 60
+            var timer = setInterval(function () {
+                timeObj.text("" + --time + "s")
+                if (time <= 0) {
+                    timeObj.hide()
+                    getCodeObj.show()
+                    clearInterval(timer)
+                }
+            }, 1000)
+        }
+    </script>
+</body>
+
+</html>

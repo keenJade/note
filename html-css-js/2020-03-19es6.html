@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+        /***promise*/
+        // 构造一个promise对象，并将要执行的异步函数传入promise的参数中，并且在异步结束之后调用resolve（）函数，在.then（)获取到异步函数的结果
+        new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve()
+            }, 1000)
+        }).then(
+            res => { }
+            err => { }
+        )
+
+        // Promise.resolve返回一个fulfilled状态的promise
+        const a = Promise.resolve(1)
+        a.then(
+            res => {
+                // res=1
+            },
+            err => { }
+        )
+
+    </script>
+</body>
+
+</html>
