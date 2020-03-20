@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <!-- 
+         -webkit-overflow-scrolling  属性控制元素在移动设备是否使用滚动回弹效果
+             auto：普通滚动，手指离开触摸屏，滚动立即停止
+             touch：回弹滚动，手机离开触屏。内容会保持一段时间的滚动
+
+             移动端中建议使用-webkit-overflow-scrolling属性代替overflow-y
+    -->
+
+    <!-- 使用fixed会导致页面偶尔卡住 -->
+
+
+    <script>
+    /*** 关于iso键盘收回页面空白的问题*/
+        (function(doc, win) {
+  var docEl = doc.documentElement,
+    resizeEvt = "orientationchange" in window ? "orientationchange" : "resize",
+    recalc = function() {
+      var clientWidth = docEl.clientWidth;
+      if (clientWidth > 750) {
+        clientWidth = 750;
+      }
+      if (!clientWidth) return;
+      docEl.style.fontSize = 75 * (clientWidth / 375) + "px";
+    };
+
+  if (!doc.addEventListener) return;
+  win.addEventListener(resizeEvt, recalc, false);
+  doc.addEventListener("DOMContentLoaded", recalc, false);
+  window.onload = function() {
+    //键盘收起页面空白问题
+    var oldScrollTop = getScrollTop() || 0;
+    document.body.addEventListener("focusout", function() {
+      //IOS软键盘关闭事件
+      var ua = window.navigator.userAgent;
+      if (ua.indexOf("iPhone") > 0 || ua.indexOf("iPad") > 0) {
+        document.body.scrollTop = oldScrollTop;
+        document.documentElement.scrollTop = oldScrollTop;
+      }
+    });
+  };
+})(document, window);
+function getScrollTop() {
+  var scrollTop = 0;
+  if (document.documentElement && document.documentElement.scrollTop) {
+    scrollTop = document.documentElement.scrollTop;
+  } else if (document.body) {
+    scrollTop = document.body.scrollTop;
+  }
+  return scrollTop;
+}
+    </script>
+</body>
+
+</html>
