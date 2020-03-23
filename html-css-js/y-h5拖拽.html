@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>拖拽</title>
+    <style type="text/css">
+        #div1,
+        #div2 {
+            float: left;
+            width: 300px;
+            height: 235px;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #aaaaaa;
+        }
+    </style>
+</head>
+
+<body>
+    <p>拖动 RUNOOB.COM 图片到矩形框中:</p>
+    <!-- ondragover代表拖动后放置的位置 -->
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <br>
+    <!-- 为了使元素拖放，需要将draggable
+    的值设置成true ； drag(event)规定被拖动的数据-->
+    <img id="drag1" src="https://img.alicdn.com/i2/2/TB1lL6xPVXXXXcTXpXXSutbFXXX.jpg_90x90q90.jpg" draggable="true"
+        ondragstart="drag(event)" width="336" height="69">
+    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+</body>
+
+</html>
+<script>
+    function allowDrop(ev) {
+        // console.log(ev)
+        // 阻止浏览器的默认行为
+        ev.preventDefault()
+    }
+
+    function drag(ev) {
+        console.log(ev.target.id)
+        console.log(ev.dataTransfer)
+        // 设置被拖数据的数据类型和数据值  数据类型是文本，值是id
+        ev.dataTransfer.setData("Text", ev.target.id)
+    }
+
+    function drop(ev) {
+        // console.log(ev)
+        ev.preventDefault()
+        var data = ev.dataTransfer.getData("Text")
+        ev.target.appendChild(document.getElementById(data))
+
+    }
+</script>
