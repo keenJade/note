@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    /**
+     * callback(执行数组中每个值的函数，包含四个参数)
+     * 1、previousValue （上一次调用回调返回的值，或者是提供的初始值（initialValue））
+     *  2、currentValue （数组中当前被处理的元素）
+     *  3、index （当前元素在数组中的索引）
+     *  4、array （调用 reduce 的数组）
+     */
+    /**
+     *  one: index从1开始,数组长度是4,但是reduce函数循环3次
+     */
+
+    // var arr = [1, 2, 3, 4]
+    // var sum = arr.reduce(function(prev, cur, index, arr) {
+    //     console.log(prev, cur, index)
+    //     return prev + cur
+
+    // })
+    // console.log(arr, sum)
+    /**
+     * two:index从0开始，数组长度是4，reduce函数循环4次
+     */
+    // var arr = [1, 2, 3, 4]
+    // var num = arr.reduce(function(prev, cur, index, arr) {
+    //     console.log(prev, cur, index)
+    //     return prev + cur
+    // }, 0)
+    // console.log(arr, num)
+    /**
+     * 如果没有提供initialValue，reduce 会从索引1的地方开始执行 
+     * callback 方法，跳过第一个索引。如果提供initialValue，从索引0开始。
+     */
+
+
+    // 当我们的数组是空值的时候，如果没有提供initialValue值，会报错。
+    // 所以一般情况我们会提供这个初始值
+    // var arr = []
+    // var sum = arr.reduce(function(prev, cur, index, arr) {
+    //     console.log(prev, cur, index)
+    //     return prev + cur
+    // }, 0)
+    // console.log(arr, sum)
+
+    /**
+     *通常
+     */
+    var arr0 = [1, 2, 3, 4]
+    var sum0 = arr0.reduce((x, y) => x + y)
+    console.log(sum0)
+    var ji = arr0.reduce((x, y) => x * y)
+    console.log(ji)
+
+    /**
+     *复杂:
+     */
+    var arr = ["apple", "banner", "orange", "banner", "banner"]
+        //  *1。计算数组中元素出现的次数
+    var arrNum = arr.reduce((prev, cur) => {
+            if (cur in prev) {
+                prev[cur]++
+            } else {
+                prev[cur] = 1
+            }
+            return prev
+        }, {}) //得出的结果是什么类型就传什么类型此时是键值对的对象
+    console.log(arrNum)
+        // *2.数组去重
+    var arrNoRepeat = arr.reduce((prev, cur) => {
+            //es6判断是否包含某一元素，通过arr.includes().直接返回true或者false
+            if (!prev.includes(cur)) {
+                // concat用于连接两个或者多个数组
+                return prev.concat(cur)
+            } else {
+                return prev
+            }
+        }, []) //得出的结果是数组，传入的也是数组
+    console.log(arrNoRepeat)
+        // *3.将二维数组转换成一维
+    var arr1 = [1, [2, 3],
+        [4, 5], 6, [7, 8]
+    ]
+    var transArr = arr1.reduce((prev, cur) => {
+        return prev.concat(cur)
+    }, [])
+    console.log(transArr)
+
+    //4 .将多维数组转化为一维  ---递归
+    var arr2 = [1, [2, 3],
+            [4, [5, 6]],
+            [7, 8],
+            [9, [10, 11]]
+        ]
+        /**
+         * 错误的写法，耗时半小时
+         *  return arr.reduce((prev, cur) => {
+                prev.concat(Array.isArray(cur) ? transArr2(cur) : cur)
+
+            }, [])
+        */
+    const transArr2 = function(arr) {
+        return arr.reduce((prev, cur) =>
+            prev.concat(Array.isArray(cur) ? transArr2(cur) : cur), [])
+    }
+    console.log(transArr2(arr2))
+        //5，对象中的属性求和
+    var obj = [{
+        subject: 'english',
+        score: 80
+    }, {
+        subject: 'chinese',
+        score: 100
+    }, {
+        subject: 'marth',
+        score: 100
+    }, ]
+    var sumObj = obj.reduce((prev, cur) => {
+        return cur.score + prev
+    }, 0)
+    console.log(sumObj) //280
+
+    // 6.有选择的统计数值
+    let arr6 = [{
+        id: 1,
+        num: 23
+    }, {
+        id: 3,
+        num: 15
+    }, {
+        id: 1,
+        num: 37
+    }, {
+        id: 2,
+        num: 10
+    }];
+    let newArr6 = arr6.reduce(function(prev, cur, index, arr) {
+        //findIndex返回id相等的第一个元素的索引
+        if (prev.findIndex(v => v.id == cur.id) >= 0) {
+            prev[prev.findIndex(v => v.id == cur.id)].num += cur.num
+            return prev
+        } else {
+            return prev.concat(cur)
+        }
+    }, [])
+
+    console.log(newArr6);
+</script>
