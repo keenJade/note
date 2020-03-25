@@ -69,28 +69,28 @@
      *复杂:
      */
     var arr = ["apple", "banner", "orange", "banner", "banner"]
-        //  *1。计算数组中元素出现的次数
+    //  *1。计算数组中元素出现的次数
     var arrNum = arr.reduce((prev, cur) => {
-            if (cur in prev) {
-                prev[cur]++
-            } else {
-                prev[cur] = 1
-            }
-            return prev
-        }, {}) //得出的结果是什么类型就传什么类型此时是键值对的对象
+        if (cur in prev) {
+            prev[cur]++
+        } else {
+            prev[cur] = 1
+        }
+        return prev
+    }, {}) //得出的结果是什么类型就传什么类型此时是键值对的对象
     console.log(arrNum)
-        // *2.数组去重
+    // *2.数组去重
     var arrNoRepeat = arr.reduce((prev, cur) => {
-            //es6判断是否包含某一元素，通过arr.includes().直接返回true或者false
-            if (!prev.includes(cur)) {
-                // concat用于连接两个或者多个数组
-                return prev.concat(cur)
-            } else {
-                return prev
-            }
-        }, []) //得出的结果是数组，传入的也是数组
+        //es6判断是否包含某一元素，通过arr.includes().直接返回true或者false
+        if (!prev.includes(cur)) {
+            // concat用于连接两个或者多个数组
+            return prev.concat(cur)
+        } else {
+            return prev
+        }
+    }, []) //得出的结果是数组，传入的也是数组
     console.log(arrNoRepeat)
-        // *3.将二维数组转换成一维
+    // *3.将二维数组转换成一维
     var arr1 = [1, [2, 3],
         [4, 5], 6, [7, 8]
     ]
@@ -101,23 +101,23 @@
 
     //4 .将多维数组转化为一维  ---递归
     var arr2 = [1, [2, 3],
-            [4, [5, 6]],
-            [7, 8],
-            [9, [10, 11]]
-        ]
-        /**
-         * 错误的写法，耗时半小时
-         *  return arr.reduce((prev, cur) => {
-                prev.concat(Array.isArray(cur) ? transArr2(cur) : cur)
+        [4, [5, 6]],
+        [7, 8],
+        [9, [10, 11]]
+    ]
+    /**
+     * 错误的写法，耗时半小时
+     *  return arr.reduce((prev, cur) => {
+            prev.concat(Array.isArray(cur) ? transArr2(cur) : cur)
 
-            }, [])
-        */
-    const transArr2 = function(arr) {
+        }, [])
+    */
+    const transArr2 = function (arr) {
         return arr.reduce((prev, cur) =>
             prev.concat(Array.isArray(cur) ? transArr2(cur) : cur), [])
     }
     console.log(transArr2(arr2))
-        //5，对象中的属性求和
+    //5，对象中的属性求和
     var obj = [{
         subject: 'english',
         score: 80
@@ -127,7 +127,8 @@
     }, {
         subject: 'marth',
         score: 100
-    }, ]
+    },]
+
     var sumObj = obj.reduce((prev, cur) => {
         return cur.score + prev
     }, 0)
@@ -147,7 +148,7 @@
         id: 2,
         num: 10
     }];
-    let newArr6 = arr6.reduce(function(prev, cur, index, arr) {
+    let newArr6 = arr6.reduce(function (prev, cur, index, arr) {
         //findIndex返回id相等的第一个元素的索引
         if (prev.findIndex(v => v.id == cur.id) >= 0) {
             prev[prev.findIndex(v => v.id == cur.id)].num += cur.num
