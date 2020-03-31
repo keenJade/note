@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .imgLazyLoad {
+            width: 80%;
+            height: 200px;
+        }
+
+        ul {
+            height: 600px;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+    <img class="imgLazyLoad" data-src="https://p3fx.kgimg.com/stdmusic/20181122/20181122003318365861.jpg" />
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+
+    <div>学习：https://juejin.im/entry/594a483061ff4b006c12cea1</div>
+    <script>
+        // ()()生成一个单独的执行上下文环境，防止变量的全局污染
+        /***
+         *imgList：保存所有图片节点的数组
+             delay: 保存是setTimeout生成的应用
+             time: 控制防抖函数延迟执行的时间
+             offset：设置图片距离可视区域多远则立即加载的偏差值*/
+        (function () {//立即执行函数
+            let imgList = [], delay, time = 250, offset = 0;
+            //函数防抖
+            function _delay() {
+                clearTimeout(delay);
+                delay = setTimeout(() => {
+                    _loadImg();
+                }, time)
+            };
+            function _loadImg() {//执行图片加载
+                for (let i = 0, len = imgList.length; i < len; i++) {
+                    if (_isShow(imgList[i])) {
+                        imgList[i].src = imgList[i].getAttribute('data-src');
+                        imgList.splice(i, 1);  // 避免下次重复判断，在显示之后将他从数组中删掉
+                    }
+                }
+            };
+            function _isShow(el) {//判断img是否出现在可视窗口
+                let coords = el.getBoundingClientRect(); //获取某个元素相对于视窗的位置集合
+                return (coords.left >= 0 && coords.left >= 0 && coords.top) <= (document.documentElement.clientHeight || window.innerHeight) + parseInt(offset);
+            };
+            // 监听scroll事件，控制防抖函数
+            function imgLoad(selector) {//获取所有需要实现懒加载图片对象引用并设置window监听事件scroll
+                _selector = selector || '.imgLazyLoad';
+                let nodes = document.querySelectorAll(selector);
+                imgList = Array.apply(null, nodes);  // 此处利用Array.apply将nodes转变成一个数组保存到imgList中
+                window.addEventListener('scroll', _delay, false)
+            };
+            imgLoad('.imgLazyLoad')
+        })()
+
+    </script>
+</body>
+
+</html>
