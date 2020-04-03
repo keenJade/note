@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        // 深拷贝问题
+        // 1. Json实现
+        ; (function () {
+            let obj1 = {
+                per1: { age: 20, class: 01 },
+                per2: { age: 15, class: 00 }
+            }
+            // console.log(obj1)
+
+            let deepClone = function (obj) {
+                let tmp = JSON.stringify(obj)// 将对象转换成json字符串形式
+                // console.log(tmp)
+                let result = JSON.parse(tmp) // 将转换而来的字符串转换成原生的js对象
+                return result;
+            }
+            let text = deepClone(obj1)
+            // console.log(text)
+
+        })()
+
+            // 2  for...in实现遍历和复制
+            ; (function () {
+                let arr1 = ["a", "b", "c", "d", "e"];
+                let newArr = deepClone02(arr1)
+                let obj01 = {
+                    name: 'yuzi',
+                    age: "8",
+                    like: ["books", "musics", "play"],
+                    say: function () {
+                        return 'i love you'
+                    }
+                }
+                console.log(newArr)
+                console.log(typeof newArr)  // object
+                console.log(typeof newArr[1])  //String
+                console.log(deepClone02(obj01))
+                function deepClone02(obj) {
+                    let result = typeof obj.splice === 'function' ? [] : {};
+                    console.log(result)
+                    if (obj || typeof obj === "object") {
+                        for (let key in obj) {
+                            if (obj[key] && typeof obj[key] === 'object') {
+                                result[key] = deepClone02(obj[key]) // 对象属性为为object，调用deepClone将值付给新的对象
+                            } else {
+                                result[key] = obj[key]
+                            }
+                        }
+                        return result
+                    }
+                    return obj
+                }
+            })()
+
+            // 3. 通过数组Array.prototype.forEach
+            
+
+    </script>
+</body>
+
+</html>
